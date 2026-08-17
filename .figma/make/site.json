@@ -1,0 +1,10 @@
+{
+  "description": "Streamline task management with this intuitive web app designed for teams, enhancing collaboration and productivity through organized workflows.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
