@@ -103,7 +103,14 @@ const IcCheck = () => (
   </svg>
 )
 
-// ── Shared component ────────────────────────────────────────────
+const IcMail = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a8917a" strokeWidth="1.6">
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="M22 6.5l-10 6.5L2 6.5" />
+  </svg>
+)
+
+// ── Shared components ───────────────────────────────────────────
 
 function FeatureRow({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
@@ -119,70 +126,99 @@ function FeatureRow({ icon, title, desc }: { icon: React.ReactNode; title: strin
   )
 }
 
+function Field({
+  label,
+  name,
+  type = 'text',
+  required = false,
+  value,
+  onChange,
+}: {
+  label: string
+  name: string
+  type?: string
+  required?: boolean
+  value: string
+  onChange: (name: string, value: string) => void
+}) {
+  return (
+    <label className="flex flex-col gap-1.5">
+      <span className="text-sm font-semibold text-ink">
+        {label}
+        {required && <span className="text-taupe"> *</span>}
+      </span>
+      <input
+        type={type}
+        required={required}
+        value={value}
+        onChange={(e) => onChange(name, e.target.value)}
+        className="bg-cream border border-sand rounded-xl px-4 py-3 text-sm text-ink placeholder:text-ink/35 focus:outline-none focus:border-taupe transition-colors"
+      />
+    </label>
+  )
+}
+
+function TextAreaField({
+  label,
+  name,
+  required = false,
+  value,
+  onChange,
+}: {
+  label: string
+  name: string
+  required?: boolean
+  value: string
+  onChange: (name: string, value: string) => void
+}) {
+  return (
+    <label className="flex flex-col gap-1.5">
+      <span className="text-sm font-semibold text-ink">
+        {label}
+        {required && <span className="text-taupe"> *</span>}
+      </span>
+      <textarea
+        required={required}
+        value={value}
+        onChange={(e) => onChange(name, e.target.value)}
+        rows={5}
+        className="bg-cream border border-sand rounded-xl px-4 py-3 text-sm text-ink placeholder:text-ink/35 focus:outline-none focus:border-taupe transition-colors resize-none"
+      />
+    </label>
+  )
+}
+
 // ── Data ────────────────────────────────────────────────────────
 
-const NAV_LINKS = ['Home', 'Our Yogurt', 'Why YGRT', 'Sustainability']
-const NAV_HREFS = ['#hero', '#yogurt', '#why', '#sustainability']
+type PageKey = 'home' | 'yogurt' | 'contact'
+const VALID_PAGES: PageKey[] = ['home', 'yogurt', 'contact']
+
+const NAV_ITEMS: { label: string; key: PageKey }[] = [
+  { label: 'Home', key: 'home' },
+  { label: 'Our Yogurt', key: 'yogurt' },
+  { label: 'Contact Us', key: 'contact' },
+]
 
 const FLOW_STEPS = ['Orders', 'Production', 'Inventory', 'Customers']
 
-// ── App ─────────────────────────────────────────────────────────
+// TODO(Shaheer): swap in YGRT's real inbox once Miss Ezza confirms it —
+// until then the contact form still collects the message, it just has
+// nowhere to send it to yet.
+const CONTACT_EMAIL = ''
+const INSTAGRAM_URL = 'https://www.instagram.com/ygrt._healthy?igsh=MWo3dHUyNXhtdHEyeA=='
 
-export default function App() {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+function getPageFromHash(): PageKey {
+  const hash = window.location.hash.slice(1).toLowerCase()
+  return (VALID_PAGES as string[]).includes(hash) ? (hash as PageKey) : 'home'
+}
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 48)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+// ── Page: Home ──────────────────────────────────────────────────
 
+function HomePage() {
   return (
-    <div className="bg-cream text-ink font-body min-h-screen overflow-x-hidden">
-
-      {/* ──────────────────── NAVBAR ──────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-cream/96 backdrop-blur-md border-b border-sand/70 shadow-sm' : 'bg-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="#hero" className="font-display font-black text-[26px] text-ink tracking-tight leading-none">
-            YGRT.
-          </a>
-
-          <div className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map((link, i) => (
-              <a key={link} href={NAV_HREFS[i]} className="text-sm text-ink/65 hover:text-ink transition-colors font-medium">
-                {link}
-              </a>
-            ))}
-          </div>
-
-          <button
-            className="md:hidden p-2 text-ink/70 hover:text-ink transition-colors"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <IcClose /> : <IcMenu />}
-          </button>
-        </div>
-
-        {menuOpen && (
-          <div className="md:hidden bg-cream/98 border-t border-sand/60 px-6 py-5 flex flex-col gap-4">
-            {NAV_LINKS.map((link, i) => (
-              <a
-                key={link}
-                href={NAV_HREFS[i]}
-                onClick={() => setMenuOpen(false)}
-                className="text-base font-medium text-ink/75 hover:text-ink transition-colors"
-              >
-                {link}
-              </a>
-            ))}
-          </div>
-        )}
-      </nav>
-
+    <>
       {/* ──────────────────── HERO ──────────────────── */}
-      <section id="hero" className="relative min-h-screen flex items-center pt-16 overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
         <Rings size={520} className="absolute -left-52 top-1/2 -translate-y-1/2 opacity-40 pointer-events-none" />
         <Rings size={360} className="absolute -bottom-28 -right-24 opacity-25 pointer-events-none" />
 
@@ -233,7 +269,7 @@ export default function App() {
       </section>
 
       {/* ──────────────────── INTRODUCTION ──────────────────── */}
-      <section id="yogurt" className="relative py-28 overflow-hidden">
+      <section className="relative py-28 overflow-hidden">
         <Rings size={340} className="absolute -left-36 top-4 opacity-35 pointer-events-none" />
         <Dots className="absolute bottom-10 right-10 opacity-45" />
         <Dots className="absolute top-10 right-1/3 opacity-35" />
@@ -291,85 +327,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* ──────────────────── WHAT MAKES IT DIFFERENT ──────────────────── */}
-      <section className="relative py-28 bg-sand/25 overflow-hidden">
-        <Rings size={380} className="absolute -right-28 top-4 opacity-30 pointer-events-none" />
-        <Dots className="absolute bottom-14 left-14 opacity-40" />
-
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
-          <div>
-            <h2 className="font-display font-black leading-[0.9] text-ink uppercase mb-5" style={{ fontSize: 'clamp(48px, 6vw, 76px)' }}>
-              What makes<br />it different?
-            </h2>
-            <div className="w-14 h-px bg-taupe mb-8" />
-            <img
-              src="https://images.unsplash.com/photo-1636485230968-2604796e237a?w=760&h=480&fit=crop&auto=format"
-              alt="Man eating yogurt from a small container"
-              className="w-full rounded-2xl object-cover aspect-video bg-sand"
-            />
-          </div>
-
-          <div className="flex flex-col gap-7 lg:pt-28">
-            <FeatureRow icon={<IcDrop />} title="Taste" desc="Rich and creamy. Sweet goodness without additives. Unflavoured to cater entirely to your choices." />
-            <div className="h-px bg-sand" />
-            <FeatureRow icon={<IcTag />} title="Pricing" desc="Restaurant-grade yogurt for a fraction of the price. Quality that genuinely fits your budget." />
-            <div className="h-px bg-sand" />
-            <FeatureRow icon={<IcBag />} title="Ease of Portability" desc="Small packaging makes it easy to carry — whether in a lunchbox or held in your hand." />
-          </div>
-        </div>
-      </section>
-
-      {/* ──────────────────── PRODUCT SHOWCASE ──────────────────── */}
-      <section id="shop" className="relative py-28 overflow-hidden">
-        <Dots className="absolute top-10 right-10 opacity-45" />
-        <Rings size={300} className="absolute -left-20 bottom-8 opacity-28 pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="font-display font-black leading-[0.9] text-ink uppercase mb-4" style={{ fontSize: 'clamp(48px, 6vw, 72px)' }}>
-            Our yogurt.
-          </h2>
-          <div className="w-14 h-px bg-taupe mb-12" />
-
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-sand group">
-              <img
-                src="https://images.unsplash.com/photo-1612182062572-e29c5dfb5eb4?w=800&h=600&fit=crop&auto=format"
-                alt="YGRT plain yogurt"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-
-            <div>
-              <span className="text-[11px] font-semibold tracking-[0.18em] text-taupe uppercase block mb-4">
-                The product
-              </span>
-              <h3 className="font-display font-black text-[48px] text-ink uppercase leading-tight mb-3">
-                YGRT
-              </h3>
-              <p className="text-ink/55 text-[17px] leading-relaxed mb-8 max-w-sm">
-                Pure, unflavoured homemade yogurt. Naturally creamy, rich in live probiotics, and completely free from artificial additives.
-              </p>
-
-              <div className="flex flex-col gap-4">
-                {[
-                  { label: 'Ingredients', value: 'Milk, live cultures. Nothing else.' },
-                  { label: 'Probiotics', value: 'Higher active count than supermarket brands.' },
-                  { label: 'Additives', value: 'None. No gelatin, pectin, or modified starch.' },
-                  { label: 'Flavour', value: 'Unflavoured — pair it with anything you like.' },
-                ].map((row) => (
-                  <div key={row.label} className="flex gap-4 py-3 border-b border-sand/70 last:border-0">
-                    <span className="text-sm font-semibold text-ink w-28 flex-shrink-0">{row.label}</span>
-                    <span className="text-sm text-ink/55">{row.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ──────────────────── SUSTAINABILITY ──────────────────── */}
-      <section id="sustainability" className="relative py-28 bg-sand/25 overflow-hidden">
+      <section className="relative py-28 bg-sand/25 overflow-hidden">
         <Rings size={380} className="absolute -left-32 -top-24 opacity-28 pointer-events-none" />
         <Dots className="absolute bottom-16 right-14 opacity-40" />
 
@@ -515,6 +474,309 @@ export default function App() {
           </p>
         </div>
       </section>
+    </>
+  )
+}
+
+// ── Page: Our Yogurt ────────────────────────────────────────────
+
+function YogurtPage() {
+  return (
+    <>
+      {/* ──────────────────── PAGE HERO ──────────────────── */}
+      <section className="relative pt-40 pb-20 overflow-hidden">
+        <Rings size={380} className="absolute -right-28 -top-10 opacity-30 pointer-events-none" />
+        <Dots className="absolute bottom-6 left-10 opacity-40" />
+
+        <div className="max-w-7xl mx-auto px-6">
+          <span className="text-[11px] font-semibold tracking-[0.2em] text-taupe uppercase block mb-5">
+            The Product
+          </span>
+          <h1 className="font-display font-black leading-[0.9] text-ink uppercase mb-5" style={{ fontSize: 'clamp(52px, 7vw, 96px)' }}>
+            Our Yogurt.
+          </h1>
+          <div className="w-14 h-px bg-taupe mb-8" />
+          <p className="text-ink/55 text-[17px] leading-relaxed max-w-lg">
+            Pure, unflavoured homemade yogurt. Naturally creamy, rich in live probiotics, and completely free from artificial additives.
+          </p>
+        </div>
+      </section>
+
+      {/* ──────────────────── WHAT MAKES IT DIFFERENT ──────────────────── */}
+      <section className="relative py-20 bg-sand/25 overflow-hidden">
+        <Rings size={380} className="absolute -right-28 top-4 opacity-30 pointer-events-none" />
+        <Dots className="absolute bottom-14 left-14 opacity-40" />
+
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
+          <div>
+            <h2 className="font-display font-black leading-[0.9] text-ink uppercase mb-5" style={{ fontSize: 'clamp(48px, 6vw, 76px)' }}>
+              What makes<br />it different?
+            </h2>
+            <div className="w-14 h-px bg-taupe mb-8" />
+            <img
+              src="https://images.unsplash.com/photo-1636485230968-2604796e237a?w=760&h=480&fit=crop&auto=format"
+              alt="Man eating yogurt from a small container"
+              className="w-full rounded-2xl object-cover aspect-video bg-sand"
+            />
+          </div>
+
+          <div className="flex flex-col gap-7 lg:pt-28">
+            <FeatureRow icon={<IcDrop />} title="Taste" desc="Rich and creamy. Sweet goodness without additives. Unflavoured to cater entirely to your choices." />
+            <div className="h-px bg-sand" />
+            <FeatureRow icon={<IcTag />} title="Pricing" desc="Restaurant-grade yogurt for a fraction of the price. Quality that genuinely fits your budget." />
+            <div className="h-px bg-sand" />
+            <FeatureRow icon={<IcBag />} title="Ease of Portability" desc="Small packaging makes it easy to carry — whether in a lunchbox or held in your hand." />
+          </div>
+        </div>
+      </section>
+
+      {/* ──────────────────── PRODUCT DETAILS ──────────────────── */}
+      <section className="relative py-28 overflow-hidden">
+        <Dots className="absolute top-10 right-10 opacity-45" />
+        <Rings size={300} className="absolute -left-20 bottom-8 opacity-28 pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-sand group">
+              <img
+                src="https://images.unsplash.com/photo-1612182062572-e29c5dfb5eb4?w=800&h=600&fit=crop&auto=format"
+                alt="YGRT plain yogurt"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+
+            <div>
+              <span className="text-[11px] font-semibold tracking-[0.18em] text-taupe uppercase block mb-4">
+                Product Details
+              </span>
+              <h3 className="font-display font-black text-[48px] text-ink uppercase leading-tight mb-3">
+                YGRT
+              </h3>
+              <p className="text-ink/55 text-[17px] leading-relaxed mb-8 max-w-sm">
+                Pure, unflavoured homemade yogurt. Naturally creamy, rich in live probiotics, and completely free from artificial additives.
+              </p>
+
+              <div className="flex flex-col gap-4">
+                {[
+                  { label: 'Ingredients', value: 'Milk, live cultures. Nothing else.' },
+                  { label: 'Probiotics', value: 'Higher active count than supermarket brands.' },
+                  { label: 'Additives', value: 'None. No gelatin, pectin, or modified starch.' },
+                  { label: 'Flavour', value: 'Unflavoured — pair it with anything you like.' },
+                ].map((row) => (
+                  <div key={row.label} className="flex gap-4 py-3 border-b border-sand/70 last:border-0">
+                    <span className="text-sm font-semibold text-ink w-28 flex-shrink-0">{row.label}</span>
+                    <span className="text-sm text-ink/55">{row.value}</span>
+                  </div>
+                ))}
+              </div>
+
+              <a href="#contact" className="mt-10 px-7 py-3 bg-ink text-cream font-semibold rounded-full text-sm hover:bg-ink/90 transition-colors inline-block">
+                Ask About Ordering
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
+
+// ── Page: Contact ───────────────────────────────────────────────
+
+function ContactPage() {
+  const [form, setForm] = useState({ name: '', email: '', company: '', subject: '', message: '' })
+  const [submitted, setSubmitted] = useState(false)
+
+  const updateField = (name: string, value: string) => {
+    setForm((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const subject = encodeURIComponent(form.subject || `Message from ${form.name}`)
+    const companyLine = form.company ? ` · ${form.company}` : ''
+    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})${companyLine}`)
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`
+    setSubmitted(true)
+  }
+
+  return (
+    <section className="relative min-h-screen pt-40 pb-28 overflow-hidden">
+      <Rings size={380} className="absolute -right-32 -top-10 opacity-28 pointer-events-none" />
+      <Dots className="absolute bottom-10 left-10 opacity-40" />
+
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1.1fr_0.9fr] gap-16 items-start">
+        {/* Left: intro + form */}
+        <div>
+          <span className="text-[11px] font-semibold tracking-[0.2em] text-taupe uppercase block mb-5">
+            Get In Touch
+          </span>
+          <h1 className="font-display font-black leading-[0.9] text-ink uppercase mb-5" style={{ fontSize: 'clamp(48px, 6vw, 80px)' }}>
+            Contact Us.
+          </h1>
+          <div className="w-14 h-px bg-taupe mb-8" />
+          <p className="text-ink/55 text-[17px] leading-relaxed max-w-md mb-10">
+            Questions about orders, ingredients, or anything else? Send us a message and we'll get back to you.
+          </p>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5 max-w-md">
+            <Field label="Your Name" name="name" required value={form.name} onChange={updateField} />
+            <Field label="Your Email" name="email" type="email" required value={form.email} onChange={updateField} />
+            <Field label="Your Company" name="company" value={form.company} onChange={updateField} />
+            <Field label="Subject" name="subject" required value={form.subject} onChange={updateField} />
+            <TextAreaField label="Your Message" name="message" required value={form.message} onChange={updateField} />
+
+            <button
+              type="submit"
+              className="mt-2 px-7 py-3 bg-ink text-cream font-semibold rounded-full text-sm hover:bg-ink/90 transition-colors self-start"
+            >
+              Send Message
+            </button>
+
+            {submitted && (
+              <p className="text-sm text-herbal">
+                Opening your email app so you can send this through — or reach us on Instagram if that's easier.
+              </p>
+            )}
+          </form>
+        </div>
+
+        {/* Right: contact details */}
+        <div className="bg-sand/25 border border-sand rounded-2xl p-8 lg:mt-24">
+          <h2 className="font-display font-black text-[22px] text-ink uppercase mb-6">
+            Other ways to reach us
+          </h2>
+
+          <div className="flex flex-col gap-6">
+            <div className="flex gap-4 items-start">
+              <div className="w-10 h-10 rounded-full bg-taupe/20 flex items-center justify-center flex-shrink-0">
+                <IcInstagram />
+              </div>
+              <div>
+                <p className="font-semibold text-ink text-sm mb-0.5">Instagram</p>
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-ink/55 hover:text-ink transition-colors break-all"
+                >
+                  @ygrt._healthy
+                </a>
+              </div>
+            </div>
+
+            {CONTACT_EMAIL ? (
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-full bg-taupe/20 flex items-center justify-center flex-shrink-0">
+                  <IcMail />
+                </div>
+                <div>
+                  <p className="font-semibold text-ink text-sm mb-0.5">Email</p>
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="text-sm text-ink/55 hover:text-ink transition-colors break-all">
+                    {CONTACT_EMAIL}
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-full bg-taupe/20 flex items-center justify-center flex-shrink-0">
+                  <IcMail />
+                </div>
+                <div>
+                  <p className="font-semibold text-ink text-sm mb-0.5">Email</p>
+                  <p className="text-sm text-ink/40 italic">Coming soon</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── App ─────────────────────────────────────────────────────────
+
+export default function App() {
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [page, setPage] = useState<PageKey>(getPageFromHash)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 48)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const next = getPageFromHash()
+      setPage((prev) => {
+        if (next !== prev) window.scrollTo({ top: 0, behavior: 'auto' })
+        return next
+      })
+    }
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
+  const goHome = (e: React.MouseEvent) => {
+    if (page === 'home') {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  return (
+    <div className="bg-cream text-ink font-body min-h-screen overflow-x-hidden">
+
+      {/* ──────────────────── NAVBAR ──────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-cream/96 backdrop-blur-md border-b border-sand/70 shadow-sm' : 'bg-transparent'}`}>
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <a href="#home" onClick={goHome} className="font-display font-black text-[26px] text-ink tracking-tight leading-none">
+            YGRT.
+          </a>
+
+          <div className="hidden md:flex items-center gap-8">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.key}
+                href={`#${item.key}`}
+                className={`text-sm transition-colors font-medium ${page === item.key ? 'text-ink' : 'text-ink/65 hover:text-ink'}`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          <button
+            className="md:hidden p-2 text-ink/70 hover:text-ink transition-colors"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <IcClose /> : <IcMenu />}
+          </button>
+        </div>
+
+        {menuOpen && (
+          <div className="md:hidden bg-cream/98 border-t border-sand/60 px-6 py-5 flex flex-col gap-4">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.key}
+                href={`#${item.key}`}
+                onClick={() => setMenuOpen(false)}
+                className={`text-base font-medium transition-colors ${page === item.key ? 'text-ink' : 'text-ink/75 hover:text-ink'}`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </nav>
+
+      {page === 'home' && <HomePage />}
+      {page === 'yogurt' && <YogurtPage />}
+      {page === 'contact' && <ContactPage />}
 
       {/* ──────────────────── FOOTER ──────────────────── */}
       <footer className="relative bg-cream border-t border-sand/60 pt-16 pb-8 overflow-hidden">
@@ -529,7 +791,7 @@ export default function App() {
                 less processing<br />more tasting
               </p>
               <a
-                href="https://www.instagram.com/ygrt._healthy?igsh=MWo3dHUyNXhtdHEyeA=="
+                href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -543,12 +805,11 @@ export default function App() {
             <div>
               <h5 className="text-[10px] font-semibold tracking-[0.2em] text-ink/35 uppercase mb-4">Navigate</h5>
               <div className="flex flex-col gap-2.5">
-                {NAV_LINKS.map((link, i) => (
-                  <a key={link} href={NAV_HREFS[i]} className="text-sm text-ink/55 hover:text-ink transition-colors">
-                    {link}
+                {NAV_ITEMS.map((item) => (
+                  <a key={item.key} href={`#${item.key}`} className="text-sm text-ink/55 hover:text-ink transition-colors">
+                    {item.label}
                   </a>
                 ))}
-                <a href="#" className="text-sm text-ink/55 hover:text-ink transition-colors">Contact</a>
               </div>
             </div>
           </div>
