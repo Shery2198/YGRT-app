@@ -247,22 +247,10 @@ function HomePage() {
 
             <div className="relative" style={{ width: 'min(420px, 85vw)' }}>
               <img
-                src="https://images.unsplash.com/photo-1612182062572-e29c5dfb5eb4?w=840&h=840&fit=crop&auto=format"
-                alt="Creamy natural yogurt with a spoon"
+                src="/images/ygrt-product-cup.jpg"
+                alt="YGRT yogurt topped with granola, held in hand"
                 className="w-full aspect-square object-cover rounded-2xl"
               />
-
-              <div className="absolute -right-[88px] top-0 bottom-0 hidden sm:flex flex-col justify-between gap-2" style={{ width: '80px' }}>
-                {[
-                  { src: 'https://images.unsplash.com/photo-1596370175676-bfc19ba489f8?w=200&h=200&fit=crop&auto=format', alt: 'Plain yogurt' },
-                  { src: 'https://images.unsplash.com/photo-1497888329096-51c27beff665?w=200&h=200&fit=crop&auto=format', alt: 'Yogurt with fresh fruit' },
-                  { src: 'https://images.unsplash.com/photo-1692071106919-01bc0b9b0919?w=200&h=200&fit=crop&auto=format', alt: 'Yogurt with granola' },
-                ].map((photo) => (
-                  <div key={photo.alt} className="flex-1 border border-taupe/30 rounded-xl overflow-hidden bg-sand">
-                    <img src={photo.src} alt={photo.alt} className="w-full h-full object-cover" />
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
@@ -319,8 +307,8 @@ function HomePage() {
 
           <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1694643823577-4c86280e290c?w=760&h=920&fit=crop&auto=format"
-              alt="Person holding a bowl of fresh yogurt"
+              src="/images/ygrt-overhead-bowl.jpg"
+              alt="Bowl of fresh YGRT plain yogurt"
               className="w-full max-w-md ml-auto rounded-2xl object-cover aspect-[5/6] bg-sand"
             />
           </div>
@@ -539,8 +527,8 @@ function YogurtPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-sand group">
               <img
-                src="https://images.unsplash.com/photo-1612182062572-e29c5dfb5eb4?w=800&h=600&fit=crop&auto=format"
-                alt="YGRT plain yogurt"
+                src="/images/ygrt-product-cup.jpg"
+                alt="YGRT yogurt topped with granola, held in hand"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
