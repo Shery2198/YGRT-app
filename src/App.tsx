@@ -277,8 +277,8 @@ function HomePage() {
           <div className="relative">
             <Rings size={380} className="absolute top-1/2 -translate-y-1/2 -right-20 opacity-20 pointer-events-none" />
             <img
-              src="https://images.unsplash.com/photo-1599318363277-b3ad8f606b5d?w=760&h=880&fit=crop&auto=format"
-              alt="Person enjoying a bowl of yogurt"
+              src="/images/ygrt-overhead-bowl.jpg"
+              alt="Bowl of fresh YGRT plain yogurt"
               className="w-full max-w-md ml-auto rounded-2xl object-cover aspect-[4/5] bg-sand"
             />
           </div>
@@ -411,36 +411,27 @@ function HomePage() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
+                icon: <IcDrop />,
                 title: 'Health-Conscious Consumers',
                 desc: 'Actively seeking probiotics and fermented foods to support immunity and gut health.',
-                imgId: '1688547978790-474af8a08f1e',
-                alt: 'Health-conscious person with a wellness drink',
               },
               {
+                icon: <IcStar />,
                 title: 'Fitness Enthusiasts',
                 desc: 'High-protein options to keep you full longer and support muscle recovery after training.',
-                imgId: '1694643823577-4c86280e290c',
-                alt: 'Fitness enthusiast holding a bowl of healthy food',
               },
               {
+                icon: <IcHome />,
                 title: 'Children',
                 desc: 'Convenient snacks suitable for school, after sports, or before bed.',
-                imgId: '1477413114673-6708cad13418',
-                alt: 'Child eating a healthy breakfast',
               },
             ].map((card) => (
-              <div key={card.title} className="bg-cream rounded-2xl overflow-hidden border border-sand/80 group">
-                <div className="aspect-[4/3] overflow-hidden bg-sand">
-                  <img
-                    src={`https://images.unsplash.com/photo-${card.imgId}?w=600&h=450&fit=crop&auto=format`}
-                    alt={card.alt}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+              <div key={card.title} className="bg-cream border border-sand rounded-2xl p-7">
+                <div className="w-11 h-11 rounded-full bg-taupe/20 flex items-center justify-center mb-6">
+                  {card.icon}
                 </div>
-                <div className="p-6">
-                  <h3 className="font-display font-bold text-[19px] text-ink uppercase mb-2">{card.title}</h3>
-                  <p className="text-ink/50 text-sm leading-relaxed">{card.desc}</p>
-                </div>
+                <h3 className="font-display font-bold text-[19px] text-ink uppercase mb-2">{card.title}</h3>
+                <p className="text-ink/50 text-sm leading-relaxed">{card.desc}</p>
               </div>
             ))}
           </div>
@@ -502,8 +493,8 @@ function YogurtPage() {
             </h2>
             <div className="w-14 h-px bg-taupe mb-8" />
             <img
-              src="https://images.unsplash.com/photo-1636485230968-2604796e237a?w=760&h=480&fit=crop&auto=format"
-              alt="Man eating yogurt from a small container"
+              src="/images/ygrt-product-cup.jpg"
+              alt="YGRT yogurt topped with granola, held in hand"
               className="w-full rounded-2xl object-cover aspect-video bg-sand"
             />
           </div>
