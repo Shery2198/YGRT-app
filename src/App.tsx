@@ -290,27 +290,17 @@ function HomePage() {
         <Dots className="absolute top-12 right-14 opacity-45" />
         <Rings size={340} className="absolute -bottom-24 left-4 opacity-30 pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="font-display font-black leading-[0.9] text-ink uppercase mb-5" style={{ fontSize: 'clamp(48px, 6vw, 76px)' }}>
-              Why choose<br />our yogurt?
-            </h2>
-            <div className="w-14 h-px bg-taupe mb-10" />
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="font-display font-black leading-[0.9] text-ink uppercase mb-5" style={{ fontSize: 'clamp(48px, 6vw, 76px)' }}>
+            Why choose<br />our yogurt?
+          </h2>
+          <div className="w-14 h-px bg-taupe mb-12" />
 
-            <div className="flex flex-col gap-7">
-              <FeatureRow icon={<IcHome />} title="Homemade Yogurt" desc="Fresh and naturally creamy, made in small careful batches." />
-              <FeatureRow icon={<IcLeaf />} title="No Artificial Additives" desc="Completely free from thickeners like gelatin, pectin, or modified starch." />
-              <FeatureRow icon={<IcStar />} title="Nutritional Benefits" desc="High-quality protein, calcium, and live probiotics in every serving." />
-              <FeatureRow icon={<IcDrop />} title="More Active Probiotics" desc="A higher count of live, gut-friendly bacteria for real digestive support." />
-            </div>
-          </div>
-
-          <div className="relative">
-            <img
-              src="/images/ygrt-overhead-bowl.jpg"
-              alt="Bowl of fresh YGRT plain yogurt"
-              className="w-full max-w-md ml-auto rounded-2xl object-cover aspect-[5/6] bg-sand"
-            />
+          <div className="grid sm:grid-cols-2 gap-x-12 gap-y-9">
+            <FeatureRow icon={<IcHome />} title="Homemade Yogurt" desc="Fresh and naturally creamy, made in small careful batches." />
+            <FeatureRow icon={<IcLeaf />} title="No Artificial Additives" desc="Completely free from thickeners like gelatin, pectin, or modified starch." />
+            <FeatureRow icon={<IcStar />} title="Nutritional Benefits" desc="High-quality protein, calcium, and live probiotics in every serving." />
+            <FeatureRow icon={<IcDrop />} title="More Active Probiotics" desc="A higher count of live, gut-friendly bacteria for real digestive support." />
           </div>
         </div>
       </section>
