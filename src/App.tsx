@@ -103,13 +103,6 @@ const IcCheck = () => (
   </svg>
 )
 
-const IcMail = () => (
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a8917a" strokeWidth="1.6">
-    <rect x="2" y="4" width="20" height="16" rx="2" />
-    <path d="M22 6.5l-10 6.5L2 6.5" />
-  </svg>
-)
-
 // ── Shared components ───────────────────────────────────────────
 
 function FeatureRow({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
@@ -633,30 +626,6 @@ function ContactPage() {
                 </a>
               </div>
             </div>
-
-            {CONTACT_EMAIL ? (
-              <div className="flex gap-4 items-start">
-                <div className="w-10 h-10 rounded-full bg-taupe/20 flex items-center justify-center flex-shrink-0">
-                  <IcMail />
-                </div>
-                <div>
-                  <p className="font-semibold text-ink text-sm mb-0.5">Email</p>
-                  <a href={`mailto:${CONTACT_EMAIL}`} className="text-sm text-ink/55 hover:text-ink transition-colors break-all">
-                    {CONTACT_EMAIL}
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <div className="flex gap-4 items-start">
-                <div className="w-10 h-10 rounded-full bg-taupe/20 flex items-center justify-center flex-shrink-0">
-                  <IcMail />
-                </div>
-                <div>
-                  <p className="font-semibold text-ink text-sm mb-0.5">Email</p>
-                  <p className="text-sm text-ink/40 italic">Coming soon</p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
