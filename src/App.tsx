@@ -467,26 +467,17 @@ function YogurtPage() {
       {/* ──────────────────── WHAT MAKES IT DIFFERENT ──────────────────── */}
       <section className="relative py-20 bg-sand/25 overflow-hidden">
         <Rings size={380} className="absolute -right-28 top-4 opacity-30 pointer-events-none" />
-        <Dots className="absolute bottom-14 left-14 opacity-40" />
+        <Dots className="absolute top-8 left-8 opacity-40" />
 
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
-          <div>
-            <h2 className="font-display font-black leading-[0.9] text-ink uppercase mb-5" style={{ fontSize: 'clamp(48px, 6vw, 76px)' }}>
-              What makes<br />it different?
-            </h2>
-            <div className="w-14 h-px bg-taupe mb-8" />
-            <img
-              src="/images/ygrt-product-cup.jpg"
-              alt="YGRT yogurt topped with granola, held in hand"
-              className="w-full rounded-2xl object-cover aspect-video bg-sand"
-            />
-          </div>
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="font-display font-black leading-[0.9] text-ink uppercase mb-5" style={{ fontSize: 'clamp(48px, 6vw, 76px)' }}>
+            What makes<br />it different?
+          </h2>
+          <div className="w-14 h-px bg-taupe mb-12" />
 
-          <div className="flex flex-col gap-7 lg:pt-28">
+          <div className="grid sm:grid-cols-3 gap-x-12 gap-y-9">
             <FeatureRow icon={<IcDrop />} title="Taste" desc="Rich and creamy. Sweet goodness without additives. Unflavoured to cater entirely to your choices." />
-            <div className="h-px bg-sand" />
             <FeatureRow icon={<IcTag />} title="Pricing" desc="Restaurant-grade yogurt for a fraction of the price. Quality that genuinely fits your budget." />
-            <div className="h-px bg-sand" />
             <FeatureRow icon={<IcBag />} title="Ease of Portability" desc="Small packaging makes it easy to carry — whether in a lunchbox or held in your hand." />
           </div>
         </div>
